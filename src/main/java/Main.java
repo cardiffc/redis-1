@@ -8,16 +8,17 @@ public class Main {
         int size = redis.getQueueSize();
         Random random = new Random();
 
-        int i = 1;
         while (true) {
-            System.out.println("На главной странице пользователь " + redis.getMinUser());
-            if (i == 10) {
-                int number = random.nextInt(size);
-                redis.setTopPosition(number);
-                i = 1;
-                Thread.sleep(1000);
+            int j = 0;
+            for (int i = 0; i < size; i++) {
+                System.out.println("На главной странице пользователь " + redis.getMinUser());
+                if (j == 9) {
+                    int number = random.nextInt(size);
+                    redis.setTopPosition(number);
+                }
+                j++;
             }
-            i++;
+            Thread.sleep(3000);
         }
     }
 }

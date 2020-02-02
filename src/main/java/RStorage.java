@@ -30,7 +30,7 @@ public class RStorage {
     }
 
     protected void setTopPosition (int number) {
-        Set<String> user = jedis.zrange(KEY, (long) number, (long) number) ;
+        Set<String> user = jedis.zrange(KEY, (long) number, (long) number);
         user.forEach(payedUser -> {
             System.out.println("> Пользователь " + payedUser + " совершил оплату!\n"
                     + "На главной странице пользователь " + payedUser);
