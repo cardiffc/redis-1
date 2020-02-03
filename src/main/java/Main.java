@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class Main {
@@ -15,10 +16,11 @@ public class Main {
                 if (j == 9) {
                     int number = random.nextInt(size);
                     redis.setTopPosition(number);
+
                 }
                 j++;
             }
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
     }
 }

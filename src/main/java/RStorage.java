@@ -2,7 +2,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
 import java.util.Set;
-import java.util.TreeSet;
 
 public class RStorage {
     private static Jedis jedis;
@@ -10,6 +9,7 @@ public class RStorage {
 
     protected void init() {
         jedis = new Jedis("redis://127.0.0.1:6379");
+        jedis.del(KEY);
         for (int i = 1; i <= 20 ; i++) {
             String user = "User # " + i;
             jedis.zadd(KEY, i, user);
@@ -30,11 +30,12 @@ public class RStorage {
     }
 
     protected void setTopPosition (int number) {
-        Set<String> user = jedis.zrange(KEY, (long) number, (long) number);
-        user.forEach(payedUser -> {
-            System.out.println("> Пользователь " + payedUser + " совершил оплату!\n"
-                    + "На главной странице пользователь " + payedUser);
-        });
+        Set<String> preUser = jedis.zrange(KEY, number, number);
+        Object[] user = preUser.toArray();
+        String payedUser = user[0].toString();
+        jedis.zrem(KEY, payedUser);
+        jedis.zadd(KEY, 0,payedUser);
+        System.out.println(">> Пользователь " + payedUser + " оплатил услугу!");
     }
 
 }
